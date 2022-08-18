@@ -1,0 +1,327 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Session Manager API",
+        "description": "This documentation goes in detail how to interact with Session Manager's API. For a more top-level approach, check the [design documentation](https://help.vtex.com/tutorial/using-session-manager-to-track-browsing-sessions-in-vtex-stores--1pA0tqsD4BFnJYhQ7ORQBd).",
+        "contact": {},
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "https://{accountName}.{environment}.com.br/api",
+            "description": "VTEX server url",
+            "variables": {
+                "accountName": {
+                    "description": "Name of the VTEX account. Used as part of the URL",
+                    "default": "{accountName}"
+                },
+                "environment": {
+                    "description": "Environment to use. Used as part of the URL.",
+                    "default": "{environment}"
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/sessions": {
+            "post": {
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Create new session",
+                "description": "",
+                "operationId": "Createnewsession",
+                "parameters": [
+                ],
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreatenewsessionRequest"
+                            },
+                            "example": {
+                                "public": {
+                                    "country": {
+                                        "value": "BR"
+                                    },
+                                    "postalCode": {
+                                        "value": "12345"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "headers": {}
+                    }
+                },
+                "deprecated": false
+            },
+            "get": {
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Get Session",
+                "description": "",
+                "operationId": "GetSession",
+                "parameters": [
+                    {
+                        "name": "items",
+                        "in": "query",
+                        "description": "Items are the keys of the values you wish to get. It follows the format `namespace1.key1,namespace2.key2`",
+                        "required": true,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "namespace1.key1,namespace2.key2"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "headers": {}
+                    }
+                },
+                "deprecated": false
+            },
+            "patch": {
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Edit session",
+                "description": "",
+                "operationId": "Editsession",
+                "parameters": [
+
+                ],
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EditsessionRequest"
+                            },
+                            "example": {
+                                "public": {
+                                    "newValue": {
+                                        "value": "patched"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "headers": {}
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/segments": {
+            "get": {
+                "tags": [
+                    "Segment"
+                ],
+                "summary": "Get Segment",
+                "description": "",
+                "operationId": "GetSegment",
+                "parameters": [
+
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "headers": {}
+                    }
+                },
+                "deprecated": false
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "appKey": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-VTEX-API-AppKey"
+            },
+            "appToken": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-VTEX-API-AppToken"
+            }
+        },
+        "schemas": {
+            "CreatenewsessionRequest": {
+                "title": "CreatenewsessionRequest",
+                "required": [
+                    "public"
+                ],
+                "type": "object",
+                "properties": {
+                    "public": {
+                        "$ref": "#/components/schemas/Public"
+                    }
+                },
+                "example": {
+                    "public": {
+                        "country": {
+                            "value": "BR"
+                        },
+                        "postalCode": {
+                            "value": "12345"
+                        }
+                    }
+                }
+            },
+            "Public": {
+                "title": "Public",
+                "required": [
+                    "country",
+                    "postalCode"
+                ],
+                "type": "object",
+                "properties": {
+                    "country": {
+                        "$ref": "#/components/schemas/Country"
+                    },
+                    "postalCode": {
+                        "$ref": "#/components/schemas/PostalCode"
+                    }
+                },
+                "example": {
+                    "country": {
+                        "value": "BR"
+                    },
+                    "postalCode": {
+                        "value": "12345"
+                    }
+                }
+            },
+            "Country": {
+                "title": "Country",
+                "required": [
+                    "value"
+                ],
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "value": "BR"
+                }
+            },
+            "PostalCode": {
+                "title": "PostalCode",
+                "required": [
+                    "value"
+                ],
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "value": "12345"
+                }
+            },
+            "EditsessionRequest": {
+                "title": "EditsessionRequest",
+                "required": [
+                    "public"
+                ],
+                "type": "object",
+                "properties": {
+                    "public": {
+                        "$ref": "#/components/schemas/Public1"
+                    }
+                },
+                "example": {
+                    "public": {
+                        "newValue": {
+                            "value": "patched"
+                        }
+                    }
+                }
+            },
+            "Public1": {
+                "title": "Public",
+                "required": [
+                    "newValue"
+                ],
+                "type": "object",
+                "properties": {
+                    "newValue": {
+                        "$ref": "#/components/schemas/NewValue"
+                    }
+                },
+                "example": {
+                    "newValue": {
+                        "value": "patched"
+                    }
+                }
+            },
+            "NewValue": {
+                "title": "NewValue",
+                "required": [
+                    "value"
+                ],
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "value": "patched"
+                }
+            },
+            "ModifysessiongettingspecificparametersRequest": {
+                "title": "ModifysessiongettingspecificparametersRequest",
+                "required": [
+                    "public"
+                ],
+                "type": "object",
+                "properties": {
+                    "public": {
+                        "$ref": "#/components/schemas/Public"
+                    }
+                },
+                "example": {
+                    "public": {
+                        "country": {
+                            "value": "BR"
+                        },
+                        "postalCode": {
+                            "value": "12345"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Sessions",
+            "description": ""
+        },
+        {
+            "name": "Segment",
+            "description": ""
+        }
+    ]
+}
